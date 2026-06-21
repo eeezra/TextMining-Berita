@@ -11,7 +11,9 @@ def extract_keywords(text, top_n=5):
 
     try:
 
-        vectorizer = TfidfVectorizer()
+        vectorizer = TfidfVectorizer(
+            stop_words=list(stopwords)
+        )
 
         tfidf_matrix = vectorizer.fit_transform(
             [cleaned]
