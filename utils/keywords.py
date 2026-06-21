@@ -4,7 +4,7 @@ from utils.preprocessing import preprocess_text
 
 def extract_keywords(text, top_n=5):
 
-    cleaned = preprocess_text(text)
+    cleaned = text.lower()
 
     if not cleaned.strip():
         return []
