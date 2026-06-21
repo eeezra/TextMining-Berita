@@ -8,10 +8,10 @@ from utils.preprocessing import preprocess_text
 
 # GOOGLE DRIVE MODEL IDs
 MODELS = {
-"cluster_labels.pkl": "1XuNhT-JPKcNMBQQGynQCn05j2MbT7D0f",
-"kmeans_model.pkl": "16E9oIZjNGFlqXCcV0_NkC8kZYM7amvB_",
-"svd_model.pkl": "1QJLRbBNTpt2sGTuiXdREffs2KD3iUcSA",
-"tfidf_vectorizer.pkl": "1nGhvXquSuarWcIIWTHus8TkcWlS9Knjq"
+"cluster_labels.pkl": "1-gNupUOa5HN5iTSjI49mXoL4HeMZyrTr",
+"kmeans_model.pkl": "1P4Q5RpVH9yD4sPc6hoWTJfkVY-P-W8sT",
+"svd_model.pkl": "1tLB5CGu1_rwRveB9RALiP9Jj2d4WJk0_",
+"tfidf_vectorizer.pkl": "1WOySxtpPtTkK6u0atvgLmel_EnMhh0T8"
 }
 
 
@@ -20,14 +20,14 @@ MODELS = {
 def download_models():
 
     os.makedirs(
-        "models_v2",
+        "models_v3",
         exist_ok=True
     )
 
     for filename, file_id in MODELS.items():
 
         filepath = os.path.join(
-            "models_v2",
+            "models_v3",
             filename
         )
 
@@ -57,19 +57,19 @@ def load_models():
     download_models()
     
     cluster_labels = joblib.load(
-        "models_v2/cluster_labels.pkl"
+        "models_v3/cluster_labels.pkl"
     )
     
     kmeans_model = joblib.load(
-        "models_v2/kmeans_model.pkl"
+        "models_v3/kmeans_model.pkl"
     )
     
     svd_model = joblib.load(
-        "models_v2/svd_model.pkl"
+        "models_v3/svd_model.pkl"
     )
     
     tfidf_vectorizer = joblib.load(
-        "models_v2/tfidf_vectorizer.pkl"
+        "models_v3/tfidf_vectorizer.pkl"
     )
     
     return (
