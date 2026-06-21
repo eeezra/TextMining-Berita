@@ -108,6 +108,16 @@ def load_models():
 
 def predict_news(text):
 
+    #debug
+    print(
+        f"MAIN={main_cluster}"
+    )
+    
+    print(
+        f"SUB={sub_cluster}"
+    )
+    #end
+
     (
         cluster_labels,
         subcluster_labels,
