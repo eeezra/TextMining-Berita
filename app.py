@@ -158,6 +158,19 @@ use_container_width=True
             )
     
         st.divider()
+
+        st.subheader(
+            "📌 Top Keywords"
+        )
+        
+        cols = st.columns(len(keywords))
+        
+        for i, keyword in enumerate(keywords):
+        
+            cols[i].metric(
+                "",
+                keyword
+            )
     
         st.subheader(
             "📝 Ringkasan Berita"
