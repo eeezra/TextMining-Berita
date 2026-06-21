@@ -115,7 +115,7 @@ use_container_width=True
             
             keywords = extract_keywords(
                 article_text,
-                top_n=5
+                top_n=8
             )
     
         icons = {
@@ -163,16 +163,24 @@ use_container_width=True
             "📌 Top Keywords"
         )
         
-        cols = st.columns(
-            len(keywords)
-        )
+        if keywords:
         
-        for col, keyword in zip(
-            cols,
-            keywords
-        ):
+            cols = st.columns(
+                min(len(keywords), 8)
+            )
         
-            col.info(keyword)
+            for col, keyword in zip(
+                cols,
+                keywords
+            ):
+        
+                col.info(keyword)
+        
+        else:
+        
+            st.warning(
+                "Keyword tidak ditemukan."
+            )
     
         st.subheader(
             "📝 Ringkasan Berita"
