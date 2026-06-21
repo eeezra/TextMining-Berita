@@ -1,10 +1,15 @@
 import re
 import numpy as np
 
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import (
+    TfidfVectorizer
+)
 
 
-def summarize_text(text, num_sentences=3):
+def summarize_text(
+    text,
+    num_sentences=3
+):
 
     sentences = re.split(
         r'(?<=[.!?])\s+',
@@ -15,14 +20,15 @@ def summarize_text(text, num_sentences=3):
         s.strip()
         for s in sentences
         if len(s.strip()) > 30
+        and "baca juga" not in s.lower()
+        and "kompas.com" not in s.lower()
     ]
 
     if len(sentences) <= num_sentences:
+
         return sentences
 
-    vectorizer = TfidfVectorizer(
-        stop_words=None
-    )
+    vectorizer = TfidfVectorizer()
 
     matrix = vectorizer.fit_transform(
         sentences
@@ -36,11 +42,11 @@ def summarize_text(text, num_sentences=3):
         scores
     )[-num_sentences:]
 
-    top_idx = sorted(top_idx)
+    top_idx = sorted(
+        top_idx
+    )
 
-    summary = [
+    return [
         sentences[i]
         for i in top_idx
     ]
-
-    return summary
