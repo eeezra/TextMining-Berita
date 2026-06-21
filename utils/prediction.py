@@ -108,16 +108,6 @@ def load_models():
 
 def predict_news(text):
 
-    #debug
-    print(
-        f"MAIN={main_cluster}"
-    )
-    
-    print(
-        f"SUB={sub_cluster}"
-    )
-    #end
-
     (
         cluster_labels,
         subcluster_labels,
@@ -149,6 +139,11 @@ def predict_news(text):
         svd_vector
     )[0]
 
+    #debug
+    print(
+        f"MAIN={main_cluster}"
+    )
+
     # =====================
     # BUKAN CLUSTER BESAR
     # =====================
@@ -179,6 +174,12 @@ def predict_news(text):
     sub_cluster = kmeans_sub.predict(
         svd_sub_vector
     )[0]
+
+    #debug
+    print(
+        f"SUB={sub_cluster}"
+    )
+    #end
 
     category = subcluster_labels[
         sub_cluster
