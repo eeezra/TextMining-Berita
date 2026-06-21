@@ -129,7 +129,7 @@ use_container_width=True
         }
     
         icon = icons.get(
-            kategori,
+            Interpretasi Cluster,
             "📰"
         )
     
