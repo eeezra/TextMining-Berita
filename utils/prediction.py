@@ -14,7 +14,8 @@ MODELS = {
 "kmeans_sub.pkl": "1Z4VdhVbylogoumyH09S8zGcV31e_83DX",
 "svd_model.pkl": "1higCCNs9zDjpmPwHeSk_A7s8DY7yA8_1",
 "svd_sub.pkl": "1Ia_ncL1uaJo5F_CgfTlldGtEwdvPBOAK",
-"tfidf_vectorizer.pkl": "15P9xk2mCzFkem1e5MSZhuKyxWn0fPgBp"
+"tfidf_vectorizer.pkl": "15P9xk2mCzFkem1e5MSZhuKyxWn0fPgBp",
+"tfidf_sub.pkl": "10Hy5PH9T7jgakQ0DqwAe3bTc4guEppIt"
 }
 
 
@@ -23,14 +24,14 @@ MODELS = {
 def download_models():
 
     os.makedirs(
-        "models_v4",
+        "models_v5",
         exist_ok=True
     )
 
     for filename, file_id in MODELS.items():
 
         filepath = os.path.join(
-            "models_v4",
+            "models_v5",
             filename
         )
 
@@ -60,31 +61,35 @@ def load_models():
     download_models()
 
     cluster_labels = joblib.load(
-        "models_v4/cluster_labels.pkl"
+        "models_v5/cluster_labels.pkl"
     )
 
     subcluster_labels = joblib.load(
-        "models_v4/subcluster_labels.pkl"
+        "models_v5/subcluster_labels.pkl"
     )
 
     kmeans_main = joblib.load(
-        "models_v4/kmeans_main.pkl"
+        "models_v5/kmeans_main.pkl"
     )
 
     kmeans_sub = joblib.load(
-        "models_v4/kmeans_sub.pkl"
+        "models_v5/kmeans_sub.pkl"
     )
 
     svd_model = joblib.load(
-        "models_v4/svd_model.pkl"
+        "models_v5/svd_model.pkl"
     )
 
     svd_sub = joblib.load(
-        "models_v4/svd_sub.pkl"
+        "models_v5/svd_sub.pkl"
     )
 
     tfidf_vectorizer = joblib.load(
-        "models_v4/tfidf_vectorizer.pkl"
+        "models_v5/tfidf_vectorizer.pkl"
+    )
+
+    tfidf_sub = joblib.load(
+        "models_v5/tfidf_sub.pkl"
     )
 
     return (
@@ -94,7 +99,8 @@ def load_models():
         kmeans_sub,
         svd_model,
         svd_sub,
-        tfidf_vectorizer
+        tfidf_vectorizer,
+        tfidf_sub
     )
 
 
@@ -109,28 +115,33 @@ def predict_news(text):
         kmeans_sub,
         svd_model,
         svd_sub,
-        tfidf_vectorizer
+        tfidf_vectorizer,
+        tfidf_sub
     ) = load_models()
 
     cleaned_text = preprocess_text(
         text
     )
 
+    # =====================
+    # MAIN CLUSTER
+    # =====================
+
     tfidf_vector = tfidf_vectorizer.transform(
         [cleaned_text]
     )
 
-    # CLUSTER UTAMA
-
-    main_vector = svd_model.transform(
+    svd_vector = svd_model.transform(
         tfidf_vector
     )
 
     main_cluster = kmeans_main.predict(
-        main_vector
+        svd_vector
     )[0]
 
-    # JIKA BUKAN CLUSTER 5
+    # =====================
+    # BUKAN CLUSTER BESAR
+    # =====================
 
     if main_cluster != 5:
 
@@ -143,15 +154,20 @@ def predict_news(text):
             category
         )
 
-    # JIKA CLUSTER 5
-    # LANJUT SUBCLUSTERING
+    # =====================
+    # SUBCLUSTER CLUSTER 5
+    # =====================
 
-    sub_vector = svd_sub.transform(
-        tfidf_vector
+    tfidf_sub_vector = tfidf_sub.transform(
+        [cleaned_text]
+    )
+
+    svd_sub_vector = svd_sub.transform(
+        tfidf_sub_vector
     )
 
     sub_cluster = kmeans_sub.predict(
-        sub_vector
+        svd_sub_vector
     )[0]
 
     category = subcluster_labels[
