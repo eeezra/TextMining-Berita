@@ -115,7 +115,7 @@ use_container_width=True
             
             keywords = extract_keywords(
                 article_text,
-                top_n=5
+                top_n=8
             )
     
         icons = {
