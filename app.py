@@ -91,86 +91,86 @@ if st.button(
 use_container_width=True
 ):
 
-if not article_text:
-
-    st.warning(
-        "Masukkan teks berita atau URL terlebih dahulu."
-    )
-
-else:
-
-    with st.spinner(
-        "Melakukan prediksi..."
-    ):
-
-        cluster, kategori = predict_news(
-            article_text
+    if not article_text:
+    
+        st.warning(
+            "Masukkan teks berita atau URL terlebih dahulu."
         )
-
-        summary = summarize_text(
-            article_text,
-            num_sentences=3
+    
+    else:
+    
+        with st.spinner(
+            "Melakukan prediksi..."
+        ):
+    
+            cluster, kategori = predict_news(
+                article_text
+            )
+    
+            summary = summarize_text(
+                article_text,
+                num_sentences=3
+            )
+    
+        icons = {
+            "Politik dan Pemerintahan": "🏛️",
+            "Sosial dan Kemasyarakatan": "👥",
+            "Keuangan dan Tata Kelola Negara": "💰",
+            "Hukum dan Pemberantasan Korupsi": "⚖️",
+            "Olahraga dan Event Internasional": "⚽",
+            "Ekonomi dan Bisnis": "📈",
+            "Transportasi dan Infrastruktur": "🚆"
+        }
+    
+        icon = icons.get(
+            kategori,
+            "📰"
         )
-
-    icons = {
-        "Politik dan Pemerintahan": "🏛️",
-        "Sosial dan Kemasyarakatan": "👥",
-        "Keuangan dan Tata Kelola Negara": "💰",
-        "Hukum dan Pemberantasan Korupsi": "⚖️",
-        "Olahraga dan Event Internasional": "⚽",
-        "Ekonomi dan Bisnis": "📈",
-        "Transportasi dan Infrastruktur": "🚆"
-    }
-
-    icon = icons.get(
-        kategori,
-        "📰"
-    )
-
-    st.divider()
-
-    st.subheader(
-        "Hasil Prediksi"
-    )
-
-    st.success(
-        f"{icon} {kategori}"
-    )
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.metric(
-            "Kategori",
-            kategori
+    
+        st.divider()
+    
+        st.subheader(
+            "Hasil Prediksi"
         )
-
-    with col2:
-        st.metric(
-            "Cluster",
-            cluster
+    
+        st.success(
+            f"{icon} {kategori}"
         )
-
-    st.divider()
-
-    st.subheader(
-        "📝 Ringkasan Berita"
-    )
-
-    for sentence in summary:
-
-        st.markdown(
-            f"- {sentence}"
+    
+        col1, col2 = st.columns(2)
+    
+        with col1:
+            st.metric(
+                "Kategori",
+                kategori
+            )
+    
+        with col2:
+            st.metric(
+                "Cluster",
+                cluster
+            )
+    
+        st.divider()
+    
+        st.subheader(
+            "📝 Ringkasan Berita"
         )
-
-    st.divider()
-
-    with st.expander(
-        "Lihat Artikel Lengkap"
-    ):
-
-        st.write(article_text)
-
+    
+        for sentence in summary:
+    
+            st.markdown(
+                f"- {sentence}"
+            )
+    
+        st.divider()
+    
+        with st.expander(
+            "Lihat Artikel Lengkap"
+        ):
+    
+            st.write(article_text)
+    
 # FOOTER
 st.divider()
 
