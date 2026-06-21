@@ -120,7 +120,7 @@ use_container_width=True
     
         icons = {
             "Politik dan Pemerintahan": "🏛️",
-            "Sosial dan Kemasyarakatan": "👥",
+            "Berita Umum dan Kemasyarakatan": "👥",
             "Keuangan dan Tata Kelola Negara": "💰",
             "Hukum dan Pemberantasan Korupsi": "⚖️",
             "Olahraga dan Event Internasional": "⚽",
