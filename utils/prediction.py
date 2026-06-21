@@ -23,27 +23,22 @@ def download_models():
         "models",
         exist_ok=True
     )
-    
+
     for filename, file_id in MODELS.items():
-    
+
         filepath = os.path.join(
             "models",
             filename
         )
-    
-        if not os.path.exists(filepath):
-    
-            print(
-                f"Downloading {filename}..."
-            )
-    
-            url = f"https://drive.google.com/uc?id={file_id}"
-            
-            gdown.download(
-                url=url,
-                output=filepath,
-                quiet=False
-            )
+
+        url = f"https://drive.google.com/uc?id={file_id}"
+
+        gdown.download(
+            url=url,
+            output=filepath,
+            quiet=False,
+            fuzzy=True
+        )
 
 
 # LOAD MODEL
