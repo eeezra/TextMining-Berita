@@ -20,25 +20,33 @@ MODELS = {
 def download_models():
 
     os.makedirs(
-        "models",
+        "models_v2",
         exist_ok=True
     )
 
     for filename, file_id in MODELS.items():
 
         filepath = os.path.join(
-            "models",
+            "models_v2",
             filename
         )
 
-        url = f"https://drive.google.com/uc?id={file_id}"
+        if not os.path.exists(filepath):
 
-        gdown.download(
-            url=url,
-            output=filepath,
-            quiet=False,
-            fuzzy=True
-        )
+            print(
+                f"Downloading {filename}..."
+            )
+
+            url = (
+                f"https://drive.google.com/uc"
+                f"?export=download&id={file_id}"
+            )
+
+            gdown.download(
+                url,
+                filepath,
+                quiet=False
+            )
 
 
 # LOAD MODEL
