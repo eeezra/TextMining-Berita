@@ -37,11 +37,12 @@ def download_models():
                 f"Downloading {filename}..."
             )
     
+            url = f"https://drive.google.com/uc?id={file_id}"
+            
             gdown.download(
-                id=file_id,
+                url=url,
                 output=filepath,
-                quiet=False,
-                fuzzy=True
+                quiet=False
             )
 
 
