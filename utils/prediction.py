@@ -8,10 +8,12 @@ from utils.preprocessing import preprocess_text
 
 # GOOGLE DRIVE MODEL IDs
 MODELS = {
-"cluster_labels.pkl": "1-gNupUOa5HN5iTSjI49mXoL4HeMZyrTr",
-"kmeans_model.pkl": "1P4Q5RpVH9yD4sPc6hoWTJfkVY-P-W8sT",
-"svd_model.pkl": "1tLB5CGu1_rwRveB9RALiP9Jj2d4WJk0_",
-"tfidf_vectorizer.pkl": "1WOySxtpPtTkK6u0atvgLmel_EnMhh0T8"
+"cluster_labels.pkl": "1rjSVFYfi0od6YQOEwVdLUbHQMpvBZiha",
+"subcluster_labels.pkl": "16IcKLA6wuWB2lq1PakV6y7BQOFJDQKBy",
+"kmeans_main.pkl": "1RKaHusaZGrxD-SQ-q137zzjJdT5VuLX5",
+"kmeans_sub.pkl": "1Z4VdhVbylogoumyH09S8zGcV31e_83DX",
+"svd_model.pkl": "1higCCNs9zDjpmPwHeSk_A7s8DY7yA8_1",
+"tfidf_vectorizer.pkl": "15P9xk2mCzFkem1e5MSZhuKyxWn0fPgBp"
 }
 
 
@@ -55,26 +57,36 @@ def download_models():
 def load_models():
 
     download_models()
-    
+
     cluster_labels = joblib.load(
         "models_v3/cluster_labels.pkl"
     )
-    
-    kmeans_model = joblib.load(
-        "models_v3/kmeans_model.pkl"
+
+    subcluster_labels = joblib.load(
+        "models_v3/subcluster_labels.pkl"
     )
-    
+
+    kmeans_main = joblib.load(
+        "models_v3/kmeans_main.pkl"
+    )
+
+    kmeans_sub = joblib.load(
+        "models_v3/kmeans_sub.pkl"
+    )
+
     svd_model = joblib.load(
         "models_v3/svd_model.pkl"
     )
-    
+
     tfidf_vectorizer = joblib.load(
         "models_v3/tfidf_vectorizer.pkl"
     )
-    
+
     return (
         cluster_labels,
-        kmeans_model,
+        subcluster_labels,
+        kmeans_main,
+        kmeans_sub,
         svd_model,
         tfidf_vectorizer
     )
@@ -83,35 +95,55 @@ def load_models():
 # PREDICTION
 
 def predict_news(text):
-    
+
     (
         cluster_labels,
-        kmeans_model,
+        subcluster_labels,
+        kmeans_main,
+        kmeans_sub,
         svd_model,
         tfidf_vectorizer
     ) = load_models()
-    
+
     cleaned_text = preprocess_text(
         text
     )
-    
+
     tfidf_vector = tfidf_vectorizer.transform(
         [cleaned_text]
     )
-    
+
     svd_vector = svd_model.transform(
         tfidf_vector
     )
-    
-    cluster = kmeans_model.predict(
+
+    main_cluster = kmeans_main.predict(
         svd_vector
     )[0]
-    
-    category = cluster_labels[
-        cluster
+
+    # Cluster selain 5
+    if main_cluster != 5:
+
+        category = cluster_labels[
+            main_cluster
+        ]
+
+        return (
+            main_cluster,
+            category
+        )
+
+    # Kalau cluster 5 -> lanjut subcluster
+
+    sub_cluster = kmeans_sub.predict(
+        svd_vector
+    )[0]
+
+    category = subcluster_labels[
+        sub_cluster
     ]
-    
+
     return (
-        cluster,
+        f"5.{sub_cluster}",
         category
     )
