@@ -175,12 +175,10 @@ use_container_width=True
         st.subheader(
             "📝 Ringkasan Berita"
         )
-    
-        for sentence in summary:
-    
-            st.markdown(
-                f"- {sentence}"
-            )
+        
+        st.write(
+            " ".join(summary)
+        )
     
         st.divider()
     
