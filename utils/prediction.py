@@ -24,14 +24,14 @@ MODELS = {
 def download_models():
 
     os.makedirs(
-        "models_v5",
+        "models_v6",
         exist_ok=True
     )
 
     for filename, file_id in MODELS.items():
 
         filepath = os.path.join(
-            "models_v5",
+            "models_v6",
             filename
         )
 
@@ -61,35 +61,35 @@ def load_models():
     download_models()
 
     cluster_labels = joblib.load(
-        "models_v5/cluster_labels.pkl"
+        "models_v6/cluster_labels.pkl"
     )
 
     subcluster_labels = joblib.load(
-        "models_v5/subcluster_labels.pkl"
+        "models_v6/subcluster_labels.pkl"
     )
 
     kmeans_main = joblib.load(
-        "models_v5/kmeans_main.pkl"
+        "models_v6/kmeans_main.pkl"
     )
 
     kmeans_sub = joblib.load(
-        "models_v5/kmeans_sub.pkl"
+        "models_v6/kmeans_sub.pkl"
     )
 
     svd_model = joblib.load(
-        "models_v5/svd_model.pkl"
+        "models_v6/svd_model.pkl"
     )
 
     svd_sub = joblib.load(
-        "models_v5/svd_sub.pkl"
+        "models_v6/svd_sub.pkl"
     )
 
     tfidf_vectorizer = joblib.load(
-        "models_v5/tfidf_vectorizer.pkl"
+        "models_v6/tfidf_vectorizer.pkl"
     )
 
     tfidf_sub = joblib.load(
-        "models_v5/tfidf_sub.pkl"
+        "models_v6/tfidf_sub.pkl"
     )
 
     return (
