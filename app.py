@@ -3,6 +3,7 @@ import streamlit as st
 from utils.prediction import predict_news
 from utils.summarizer import summarize_text
 from utils.article_extractor import extract_article
+from utils.keywords import extract_keywords
 
 st.set_page_config(
     page_title="Prediksi Kategori Berita Indonesia",
@@ -110,6 +111,11 @@ use_container_width=True
             summary = summarize_text(
                 article_text,
                 num_sentences=3
+            )
+            
+            keywords = extract_keywords(
+                article_text,
+                top_n=5
             )
     
         icons = {
