@@ -19,30 +19,30 @@ MODELS = {
 
 def download_models():
 
-os.makedirs(
-    "models",
-    exist_ok=True
-)
-
-for filename, file_id in MODELS.items():
-
-    filepath = os.path.join(
+    os.makedirs(
         "models",
-        filename
+        exist_ok=True
     )
-
-    if not os.path.exists(filepath):
-
-        print(
-            f"Downloading {filename}..."
+    
+    for filename, file_id in MODELS.items():
+    
+        filepath = os.path.join(
+            "models",
+            filename
         )
-
-        gdown.download(
-            id=file_id,
-            output=filepath,
-            quiet=False,
-            fuzzy=True
-        )
+    
+        if not os.path.exists(filepath):
+    
+            print(
+                f"Downloading {filename}..."
+            )
+    
+            gdown.download(
+                id=file_id,
+                output=filepath,
+                quiet=False,
+                fuzzy=True
+            )
 
 
 # LOAD MODEL
@@ -50,64 +50,64 @@ for filename, file_id in MODELS.items():
 @lru_cache(maxsize=1)
 def load_models():
 
-download_models()
-
-cluster_labels = joblib.load(
-    "models/cluster_labels.pkl"
-)
-
-kmeans_model = joblib.load(
-    "models/kmeans_model.pkl"
-)
-
-svd_model = joblib.load(
-    "models/svd_model.pkl"
-)
-
-tfidf_vectorizer = joblib.load(
-    "models/tfidf_vectorizer.pkl"
-)
-
-return (
-    cluster_labels,
-    kmeans_model,
-    svd_model,
-    tfidf_vectorizer
-)
+    download_models()
+    
+    cluster_labels = joblib.load(
+        "models/cluster_labels.pkl"
+    )
+    
+    kmeans_model = joblib.load(
+        "models/kmeans_model.pkl"
+    )
+    
+    svd_model = joblib.load(
+        "models/svd_model.pkl"
+    )
+    
+    tfidf_vectorizer = joblib.load(
+        "models/tfidf_vectorizer.pkl"
+    )
+    
+    return (
+        cluster_labels,
+        kmeans_model,
+        svd_model,
+        tfidf_vectorizer
+    )
 
 
 # PREDICTION
 
 def predict_news(text):
     
-(
-    cluster_labels,
-    kmeans_model,
-    svd_model,
-    tfidf_vectorizer
-) = load_models()
-
-cleaned_text = preprocess_text(
-    text
-)
-
-tfidf_vector = tfidf_vectorizer.transform(
-    [cleaned_text]
-)
-
-svd_vector = svd_model.transform(
-    tfidf_vector
-)
-
-cluster = kmeans_model.predict(
-    svd_vector
-)[0]
-
-category = cluster_labels[
-    cluster
-]
-
-return (
-    cluster,
-    category
-)
+    (
+        cluster_labels,
+        kmeans_model,
+        svd_model,
+        tfidf_vectorizer
+    ) = load_models()
+    
+    cleaned_text = preprocess_text(
+        text
+    )
+    
+    tfidf_vector = tfidf_vectorizer.transform(
+        [cleaned_text]
+    )
+    
+    svd_vector = svd_model.transform(
+        tfidf_vector
+    )
+    
+    cluster = kmeans_model.predict(
+        svd_vector
+    )[0]
+    
+    category = cluster_labels[
+        cluster
+    ]
+    
+    return (
+        cluster,
+        category
+    )
