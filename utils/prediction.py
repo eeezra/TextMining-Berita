@@ -1,11 +1,12 @@
 import os
+from functools import lru_cache
+
 import gdown
 import joblib
 
 from utils.preprocessing import preprocess_text
 
 # GOOGLE DRIVE MODEL IDs
-
 MODELS = {
 "cluster_labels.pkl": "1c_lVqVAjaX07zczhZElkHMlnLB-HAThu",
 "kmeans_model.pkl": "16E9oIZjNGFlqXCcV0_NkC8kZYM7amvB_",
@@ -15,7 +16,9 @@ MODELS = {
 
 
 # DOWNLOAD MODEL
+
 def download_models():
+
 os.makedirs(
     "models",
     exist_ok=True
@@ -41,29 +44,48 @@ for filename, file_id in MODELS.items():
             fuzzy=True
         )
 
+
 # LOAD MODEL
+
+@lru_cache(maxsize=1)
+def load_models():
 
 download_models()
 
 cluster_labels = joblib.load(
-"models/cluster_labels.pkl"
+    "models/cluster_labels.pkl"
 )
 
 kmeans_model = joblib.load(
-"models/kmeans_model.pkl"
+    "models/kmeans_model.pkl"
 )
 
 svd_model = joblib.load(
-"models/svd_model.pkl"
+    "models/svd_model.pkl"
 )
 
 tfidf_vectorizer = joblib.load(
-"models/tfidf_vectorizer.pkl"
+    "models/tfidf_vectorizer.pkl"
 )
+
+return (
+    cluster_labels,
+    kmeans_model,
+    svd_model,
+    tfidf_vectorizer
+)
+
 
 # PREDICTION
 
 def predict_news(text):
+    
+(
+    cluster_labels,
+    kmeans_model,
+    svd_model,
+    tfidf_vectorizer
+) = load_models()
 
 cleaned_text = preprocess_text(
     text
