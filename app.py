@@ -129,7 +129,7 @@ use_container_width=True
         }
     
         icon = icons.get(
-            Cluster Domain,
+            kategori,
             "📰"
         )
     
@@ -147,7 +147,7 @@ use_container_width=True
     
         with col1:
             st.metric(
-                "Kategori",
+                "Cluster Domain",
                 kategori
             )
     
