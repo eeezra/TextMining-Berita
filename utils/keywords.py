@@ -1,38 +1,43 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
-
 from utils.preprocessing import preprocess_text
 
 
-def extract_keywords(
-    text,
-    top_n=5
-):
+def extract_keywords(text, top_n=5):
 
     cleaned = preprocess_text(text)
 
-    vectorizer = TfidfVectorizer()
+    if not cleaned.strip():
+        return []
 
-    tfidf_matrix = vectorizer.fit_transform(
-        [cleaned]
-    )
+    try:
 
-    feature_names = vectorizer.get_feature_names_out()
+        vectorizer = TfidfVectorizer()
 
-    scores = tfidf_matrix.toarray()[0]
+        tfidf_matrix = vectorizer.fit_transform(
+            [cleaned]
+        )
 
-    keyword_scores = list(
-        zip(feature_names, scores)
-    )
+        feature_names = (
+            vectorizer.get_feature_names_out()
+        )
 
-    keyword_scores.sort(
-        key=lambda x: x[1],
-        reverse=True
-    )
+        scores = tfidf_matrix.toarray()[0]
 
-    keywords = [
-        word
-        for word, _
-        in keyword_scores[:top_n]
-    ]
+        keyword_scores = list(
+            zip(feature_names, scores)
+        )
 
-    return keywords
+        keyword_scores.sort(
+            key=lambda x: x[1],
+            reverse=True
+        )
+
+        return [
+            word
+            for word, _
+            in keyword_scores[:top_n]
+        ]
+
+    except Exception:
+
+        return []
