@@ -6,5 +6,3 @@ joblib
 gdown
 Sastrawi
 trafilatura
-sumy
-nltk
