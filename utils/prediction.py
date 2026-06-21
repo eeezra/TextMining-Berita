@@ -8,7 +8,7 @@ from utils.preprocessing import preprocess_text
 
 # GOOGLE DRIVE MODEL IDs
 MODELS = {
-"cluster_labels.pkl": "1c_lVqVAjaX07zczhZElkHMlnLB-HAThu",
+"cluster_labels.pkl": "1XuNhT-JPKcNMBQQGynQCn05j2MbT7D0f",
 "kmeans_model.pkl": "16E9oIZjNGFlqXCcV0_NkC8kZYM7amvB_",
 "svd_model.pkl": "1QJLRbBNTpt2sGTuiXdREffs2KD3iUcSA",
 "tfidf_vectorizer.pkl": "1nGhvXquSuarWcIIWTHus8TkcWlS9Knjq"
