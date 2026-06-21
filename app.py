@@ -5,9 +5,9 @@ from utils.summarizer import summarize_text
 from utils.article_extractor import extract_article
 
 st.set_page_config(
-page_title="Prediksi Kategori Berita Indonesia",
-page_icon="📰",
-layout="wide"
+    page_title="Prediksi Kategori Berita Indonesia",
+    page_icon="📰",
+    layout="wide"
 )
 
 # HEADER
@@ -29,11 +29,11 @@ st.divider()
 
 # PILIH INPUT
 input_mode = st.radio(
-"Pilih Metode Input",
-[
-"📝 Tempel Teks Berita",
-"🔗 Tempel URL Berita"
-]
+    "Pilih Metode Input",
+    [
+    "📝 Tempel Teks Berita",
+    "🔗 Tempel URL Berita"
+    ]
 )
 
 article_text = ""
@@ -42,47 +42,47 @@ article_text = ""
 
 if input_mode == "📝 Tempel Teks Berita":
 
-article_text = st.text_area(
-    "Masukkan Teks Berita",
-    height=250,
-    placeholder="Tempel isi berita di sini..."
-)
+    article_text = st.text_area(
+        "Masukkan Teks Berita",
+        height=250,
+        placeholder="Tempel isi berita di sini..."
+    )
 
 # INPUT URL
 else:
 
-url = st.text_input(
-    "Masukkan URL Berita",
-    placeholder="https://..."
-)
+    url = st.text_input(
+        "Masukkan URL Berita",
+        placeholder="https://..."
+    )
 
-if url:
-
-    with st.spinner(
-        "Mengambil isi artikel..."
-    ):
-
-        article_text = extract_article(
-            url
-        )
-
-    if article_text:
-
-        st.success(
-            "Artikel berhasil diekstrak."
-        )
-
-        with st.expander(
-            "Lihat Isi Artikel"
+    if url:
+    
+        with st.spinner(
+            "Mengambil isi artikel..."
         ):
-
-            st.write(article_text)
-
-    else:
-
-        st.error(
-            "Gagal mengambil isi artikel."
-        )
+    
+            article_text = extract_article(
+                url
+            )
+    
+        if article_text:
+    
+            st.success(
+                "Artikel berhasil diekstrak."
+            )
+    
+            with st.expander(
+                "Lihat Isi Artikel"
+            ):
+    
+                st.write(article_text)
+    
+        else:
+    
+            st.error(
+                "Gagal mengambil isi artikel."
+            )
 
 
 # PREDIKSI
