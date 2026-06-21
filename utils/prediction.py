@@ -57,19 +57,19 @@ def load_models():
     download_models()
     
     cluster_labels = joblib.load(
-        "models/cluster_labels.pkl"
+        "models_v2/cluster_labels.pkl"
     )
     
     kmeans_model = joblib.load(
-        "models/kmeans_model.pkl"
+        "models_v2/kmeans_model.pkl"
     )
     
     svd_model = joblib.load(
-        "models/svd_model.pkl"
+        "models_v2/svd_model.pkl"
     )
     
     tfidf_vectorizer = joblib.load(
-        "models/tfidf_vectorizer.pkl"
+        "models_v2/tfidf_vectorizer.pkl"
     )
     
     return (
