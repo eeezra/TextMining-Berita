@@ -163,14 +163,16 @@ use_container_width=True
             "📌 Top Keywords"
         )
         
-        cols = st.columns(len(keywords))
+        cols = st.columns(
+            len(keywords)
+        )
         
-        for i, keyword in enumerate(keywords):
+        for col, keyword in zip(
+            cols,
+            keywords
+        ):
         
-            cols[i].metric(
-                "",
-                keyword
-            )
+            col.info(keyword)
     
         st.subheader(
             "📝 Ringkasan Berita"
